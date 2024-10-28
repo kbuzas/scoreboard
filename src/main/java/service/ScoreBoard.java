@@ -3,8 +3,6 @@ package service;
 import model.Match;
 import model.TeamPair;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,6 +15,9 @@ public class ScoreBoard {
         matches.putIfAbsent(teamPair, new Match(homeTeam, awayTeam));
     }
 
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+
+    }
 
     public Map<TeamPair, Match> getMatches() {
         return matches;
