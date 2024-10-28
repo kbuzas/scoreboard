@@ -47,6 +47,10 @@ public class Match {
         this.awayScore = awayScore;
     }
 
+    public boolean isSettled() {
+        return homeScore > 0 || awayScore > 0;
+    }
+
     @Override
     public String toString() {
         return String.format("%s %d - %d %s", homeTeam, homeScore, awayScore, awayTeam);

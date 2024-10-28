@@ -16,7 +16,7 @@ public class ScoreBoard {
     private final Map<TeamPair, Match> matches = new ConcurrentHashMap<>();
 
     public void startMatch(TeamPair teamPair) {
-        if(isTeamAlreadyPlaying(teamPair)){
+        if (isTeamAlreadyPlaying(teamPair)) {
             throw new TeamAlreadyPlayingException("A team cannot have more than one ongoing match.");
         }
         matches.putIfAbsent(teamPair, new Match(teamPair.getHomeTeam(), teamPair.getAwayTeam()));
@@ -31,17 +31,20 @@ public class ScoreBoard {
     }
 
     public void updateScore(TeamPair teamPair, int homeScore, int awayScore) {
-        if(homeScore < 0 || awayScore < 0){
+        if (homeScore < 0 || awayScore < 0) {
             throw new InvalidScoreException("Scores cannot be negative.");
         }
         Match match = matches.get(teamPair);
         if (match != null) {
+            if (match.isSettled() && (homeScore < match.getHomeScore() || awayScore < match.getAwayScore())) {
+                throw new InvalidScoreException("Scores of an ongoing match cannod be reduced.");
+            }
             match.setHomeScore(homeScore);
             match.setAwayScore(awayScore);
         }
     }
 
-    public void finishMatch(TeamPair teamPair){
+    public void finishMatch(TeamPair teamPair) {
         matches.remove(teamPair);
     }
 
@@ -49,7 +52,7 @@ public class ScoreBoard {
         return matches;
     }
 
-    public List<Match> getSummary(){
+    public List<Match> getSummary() {
         return matches.values().stream()
                 .sorted(Comparator.comparingInt((Match m) -> m.getHomeScore() + m.getAwayScore())
                         .thenComparing(Match::getStartTime).reversed()).collect(Collectors.toList());

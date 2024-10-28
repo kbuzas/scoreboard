@@ -122,12 +122,12 @@ class ScoreBoardTest {
             scoreBoard.updateScore(teamPair, 1, 3);
         });
 
-        assertEquals("Scores of an ongoing match cannod be reduced", thrown.getMessage());
+        assertEquals("Scores of an ongoing match cannod be reduced.", thrown.getMessage());
 
         thrown = assertThrows(InvalidScoreException.class, () -> {
             scoreBoard.updateScore(teamPair, 2, 2);
         });
 
-        assertEquals("Scores of an ongoing match cannod be reduced", thrown.getMessage());
+        assertEquals("Scores of an ongoing match cannod be reduced.", thrown.getMessage());
     }
 }
