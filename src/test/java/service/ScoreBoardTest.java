@@ -2,12 +2,12 @@ package service;
 
 import model.Match;
 import model.TeamPair;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.ScoreBoard;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ScoreBoardTest {
     TeamPair teamPair;
@@ -39,11 +39,28 @@ class ScoreBoardTest {
     }
 
     @Test
-    void testFinishMatch(){
+    void testFinishMatch() {
         ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.startMatch(teamPair);
         scoreBoard.finishMatch(teamPair);
 
         assertEquals(0, scoreBoard.getMatches().size());
+    }
+
+    @Test
+    void testMatchSummary() {
+        ScoreBoard scoreBoard = new ScoreBoard();
+        TeamPair pair1 = new TeamPair("Team A", "Team B");
+        scoreBoard.startMatch(pair1);
+        scoreBoard.updateScore(pair1, 1, 0);
+
+        TeamPair pair2 = new TeamPair("Team C", "Team D");
+        scoreBoard.startMatch(pair2);
+        scoreBoard.updateScore(pair2, 2, 1);
+
+        List<Match> summary = scoreBoard.getSummary();
+        assertEquals(2, summary.size());
+        assertEquals("Team C 2 - 1 Team D", summary.get(0).toString());
+        assertEquals("Team A 1 - 0 Team B", summary.get(1).toString());
     }
 }
