@@ -22,6 +22,10 @@ public class ScoreBoard {
         }
     }
 
+    public void finishMatch(TeamPair teamPair){
+
+    }
+
     public Map<TeamPair, Match> getMatches() {
         return matches;
     }

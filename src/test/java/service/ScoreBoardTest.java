@@ -33,10 +33,17 @@ class ScoreBoardTest {
         scoreBoard.startMatch(teamPair);
         scoreBoard.updateScore(teamPair, 2, 3);
 
-
         Match match = scoreBoard.getMatches().get(teamPair);
         assertEquals(2, match.getHomeScore());
         assertEquals(3, match.getAwayScore());
     }
 
+    @Test
+    void testFinishMatch(){
+        ScoreBoard scoreBoard = new ScoreBoard();
+        scoreBoard.startMatch(teamPair);
+        scoreBoard.finishMatch(teamPair);
+
+        assertEquals(0, scoreBoard.getMatches().size());
+    }
 }
