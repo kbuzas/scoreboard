@@ -29,4 +29,8 @@ public class ScoreBoard {
     public Map<TeamPair, Match> getMatches() {
         return matches;
     }
+
+    public Map<TeamPair, Match> getSummary(){
+        return new ConcurrentHashMap<>();
+    }
 }
