@@ -23,7 +23,7 @@ public class ScoreBoard {
     }
 
     public void finishMatch(TeamPair teamPair){
-
+        matches.remove(teamPair);
     }
 
     public Map<TeamPair, Match> getMatches() {
