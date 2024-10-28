@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.InvalidScoreException;
+
 import java.time.LocalDateTime;
 
 public class Match {
@@ -57,6 +59,13 @@ public class Match {
     }
 
     public void updateScore(int homeScore, int awayScore) {
-
+        if (homeScore < 0 || awayScore < 0) {
+            throw new InvalidScoreException("Scores cannot be negative.");
+        }
+        if (isSettled() && (homeScore < this.homeScore || awayScore < this.awayScore)) {
+            throw new InvalidScoreException("Scores of an ongoing match cannot be reduced.");
+        }
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
     }
 }
