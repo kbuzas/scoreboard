@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.MatchTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-28T13:00:01" hostname="DESKTOP-TIE8TP7" time="0.025">
+  <properties/>
+  <testcase name="testMatchInitialization()" classname="model.MatchTest" time="0.025"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
