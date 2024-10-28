@@ -21,7 +21,7 @@ class ScoreBoardTest {
     }
 
     @Test
-    void updateScore(){
+    void testUpdateScore(){
         ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.startMatch("Team A", "Team B");
         scoreBoard.updateScore("Team A", "Team B", 2, 3);

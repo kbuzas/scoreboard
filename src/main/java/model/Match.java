@@ -38,4 +38,12 @@ public class Match {
     public LocalDateTime getStartTime() {
         return startTime;
     }
+
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
+    }
 }

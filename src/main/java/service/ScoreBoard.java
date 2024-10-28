@@ -16,7 +16,12 @@ public class ScoreBoard {
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
-
+        TeamPair teamPair = new TeamPair(homeTeam, awayTeam);
+        Match match = matches.get(teamPair);
+        if (match != null) {
+            match.setHomeScore(homeScore);
+            match.setAwayScore(awayScore);
+        }
     }
 
     public Map<TeamPair, Match> getMatches() {
