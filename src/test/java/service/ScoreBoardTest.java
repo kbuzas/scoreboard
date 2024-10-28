@@ -111,4 +111,23 @@ class ScoreBoardTest {
         // Verify that the exception message is as expected
         assertEquals("Scores cannot be negative.", thrown.getMessage());
     }
+
+    @Test
+    public void testPreventScoreReduction(){
+        scoreBoard.startMatch(teamPair);
+        scoreBoard.updateScore(teamPair, 2, 3);
+
+        //Attempting to reduce score of an ongoing match should throw an exception
+        InvalidScoreException thrown = assertThrows(InvalidScoreException.class, () -> {
+            scoreBoard.updateScore(teamPair, 1, 3);
+        });
+
+        assertEquals("Scores of an ongoing match cannod be reduced", thrown.getMessage());
+
+        thrown = assertThrows(InvalidScoreException.class, () -> {
+            scoreBoard.updateScore(teamPair, 2, 2);
+        });
+
+        assertEquals("Scores of an ongoing match cannod be reduced", thrown.getMessage());
+    }
 }
