@@ -1,27 +1,37 @@
 package service;
 
+import configuration.AppConfig;
 import exceptions.InvalidScoreException;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
 import model.WorldCupTeams;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest(classes = AppConfig.class)
 class ScoreBoardTest {
-    TeamPair teamPair;
+    @Autowired
     ScoreBoard scoreBoard;
+
+    TeamPair teamPair;
 
     @BeforeEach
     void setup() {
         teamPair = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
-        scoreBoard = new ScoreBoard();
+    }
 
+    @AfterEach
+    void tearDown() {
+        scoreBoard.finishMatch(teamPair);
     }
 
     @Test
@@ -64,6 +74,8 @@ class ScoreBoardTest {
         assertEquals(2, summary.size());
         assertEquals("CANADA 2 - 1 ITALY", summary.get(0).toString());
         assertEquals("ARGENTINA 1 - 0 BRAZIL", summary.get(1).toString());
+        scoreBoard.finishMatch(pair2);
+
     }
 
     @Test
@@ -77,6 +89,8 @@ class ScoreBoardTest {
         });
 
         assertEquals("A team cannot have more than one ongoing match.", thrown.getMessage());
+        scoreBoard.finishMatch(teamPair2);
+
     }
 
     @Test
@@ -113,7 +127,7 @@ class ScoreBoardTest {
     }
 
     @Test
-    public void testPreventScoreReduction(){
+    public void testPreventScoreReduction() {
         scoreBoard.startMatch(teamPair);
         scoreBoard.updateScore(teamPair, 2, 3);
 

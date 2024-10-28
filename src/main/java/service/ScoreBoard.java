@@ -1,9 +1,9 @@
 package service;
 
-import exceptions.InvalidScoreException;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Service
 public class ScoreBoard {
 
     private final Map<TeamPair, Match> matches = new ConcurrentHashMap<>();
