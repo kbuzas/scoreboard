@@ -163,13 +163,28 @@ class ScoreBoardTest {
 
         scoreBoard.printSummary();
 
-        String expectedOutput = "Current Scoreboard:\n" +
-                "ARGENTINA 2 - 1 BRAZIL\n" +
-                "CANADA 3 - 2 ITALY\n";
+        String expectedOutput = "Current Scoreboard:" + System.lineSeparator() +
+                "CANADA 3 - 2 ITALY" + System.lineSeparator() +
+                "ARGENTINA 2 - 1 BRAZIL" + System.lineSeparator();
         assertEquals(expectedOutput, outputStream.toString());
 
         // Restore the original output stream
         System.setOut(System.out);
         scoreBoard.finishMatch(teamPair2);
+    }
+
+    @Test
+    void testPrintSummaryNoMatches() {
+        // Redirect the output stream to capture the print statements
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        scoreBoard.printSummary();
+
+        String expectedOutput = "No ongoing matches." + System.lineSeparator();
+        assertEquals(expectedOutput, outputStream.toString());
+
+        // Restore the original output stream
+        System.setOut(System.out);
     }
 }

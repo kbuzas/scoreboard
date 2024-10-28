@@ -51,6 +51,14 @@ public class ScoreBoard {
     }
 
     public void printSummary() {
+        if (matches.isEmpty()) {
+            System.out.println("No ongoing matches.");
+            return;
+        }
 
+        System.out.println("Current Scoreboard:");
+        for (Match match : getSummary()) {
+            System.out.println(match.toString());
+        }
     }
 }
