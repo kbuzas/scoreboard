@@ -49,4 +49,8 @@ public class ScoreBoard {
                 .sorted(Comparator.comparingInt((Match m) -> m.getHomeScore() + m.getAwayScore())
                         .thenComparing(Match::getStartTime).reversed()).collect(Collectors.toList());
     }
+
+    public void printSummary() {
+
+    }
 }

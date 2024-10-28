@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -143,5 +145,31 @@ class ScoreBoardTest {
         });
 
         assertEquals("Scores of an ongoing match cannot be reduced.", thrown.getMessage());
+    }
+
+    @Test
+    void testPrintSummaryWithMatches() {
+        // Start matches and update scores
+        scoreBoard.startMatch(teamPair);
+        scoreBoard.updateScore(teamPair, 2, 1);
+
+        TeamPair teamPair2 = new TeamPair(WorldCupTeams.CANADA, WorldCupTeams.ITALY);
+        scoreBoard.startMatch(teamPair2);
+        scoreBoard.updateScore(teamPair2, 3, 2);
+
+        // Redirect the output stream to capture the print statements
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        scoreBoard.printSummary();
+
+        String expectedOutput = "Current Scoreboard:\n" +
+                "ARGENTINA 2 - 1 BRAZIL\n" +
+                "CANADA 3 - 2 ITALY\n";
+        assertEquals(expectedOutput, outputStream.toString());
+
+        // Restore the original output stream
+        System.setOut(System.out);
+        scoreBoard.finishMatch(teamPair2);
     }
 }
