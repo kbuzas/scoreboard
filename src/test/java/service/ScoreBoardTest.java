@@ -8,18 +8,21 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ScoreBoardTest {
     TeamPair teamPair;
+    ScoreBoard scoreBoard;
 
     @BeforeEach
     void setup() {
         teamPair = new TeamPair("Team A", "Team B");
+        scoreBoard = new ScoreBoard();
+
     }
 
     @Test
     void testStartMatch() {
-        ScoreBoard scoreBoard = new ScoreBoard();
 
         scoreBoard.startMatch(teamPair);
         assertEquals(1, scoreBoard.getMatches().size());
@@ -29,7 +32,6 @@ class ScoreBoardTest {
 
     @Test
     void testUpdateScore() {
-        ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.startMatch(teamPair);
         scoreBoard.updateScore(teamPair, 2, 3);
 
@@ -40,7 +42,6 @@ class ScoreBoardTest {
 
     @Test
     void testFinishMatch() {
-        ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.startMatch(teamPair);
         scoreBoard.finishMatch(teamPair);
 
@@ -49,7 +50,6 @@ class ScoreBoardTest {
 
     @Test
     void testMatchSummary() {
-        ScoreBoard scoreBoard = new ScoreBoard();
         TeamPair pair1 = new TeamPair("Team A", "Team B");
         scoreBoard.startMatch(pair1);
         scoreBoard.updateScore(pair1, 1, 0);
@@ -63,4 +63,31 @@ class ScoreBoardTest {
         assertEquals("Team C 2 - 1 Team D", summary.get(0).toString());
         assertEquals("Team A 1 - 0 Team B", summary.get(1).toString());
     }
+
+    @Test
+    public void testPreventMultipleMatchesForSameTeam() {
+        scoreBoard.startMatch(teamPair);
+        TeamPair teamPair2 = new TeamPair("Team A", "Team C");
+
+        // Attempting to start a match for Team A again should throw an exception
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoard.startMatch(teamPair2);
+        });
+
+        assertEquals("A team cannot have more than one ongoing match.", thrown.getMessage());
+    }
+
+    @Test
+    public void testPreventMultipleMatchesForSameAwayTeam() {
+        scoreBoard.startMatch(teamPair);
+        TeamPair teamPair2 = new TeamPair("Team C", "Team B");
+
+        // Attempting to start a match for Team A again should throw an exception
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoard.startMatch(teamPair2);
+        });
+
+        assertEquals("A team cannot have more than one ongoing match.", thrown.getMessage());
+    }
+
 }
