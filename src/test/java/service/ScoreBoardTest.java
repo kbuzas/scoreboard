@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +71,7 @@ class ScoreBoardTest {
         TeamPair teamPair2 = new TeamPair("Team A", "Team C");
 
         // Attempting to start a match for Team A again should throw an exception
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        TeamAlreadyPlayingException thrown = assertThrows(TeamAlreadyPlayingException.class, () -> {
             scoreBoard.startMatch(teamPair2);
         });
 
@@ -83,7 +84,7 @@ class ScoreBoardTest {
         TeamPair teamPair2 = new TeamPair("Team C", "Team B");
 
         // Attempting to start a match for Team A again should throw an exception
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        TeamAlreadyPlayingException thrown = assertThrows(TeamAlreadyPlayingException.class, () -> {
             scoreBoard.startMatch(teamPair2);
         });
 

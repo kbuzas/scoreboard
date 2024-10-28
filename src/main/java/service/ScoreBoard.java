@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
 
@@ -14,7 +15,18 @@ public class ScoreBoard {
     private final Map<TeamPair, Match> matches = new ConcurrentHashMap<>();
 
     public void startMatch(TeamPair teamPair) {
+        if(isTeamAlreadyPlaying(teamPair)){
+            throw new TeamAlreadyPlayingException("A team cannot have more than one ongoing match.");
+        }
         matches.putIfAbsent(teamPair, new Match(teamPair.getHomeTeam(), teamPair.getAwayTeam()));
+    }
+
+    private boolean isTeamAlreadyPlaying(TeamPair teamPair) {
+        return matches.values().stream()
+                .anyMatch(match -> match.getHomeTeam().equals(teamPair.getHomeTeam()) ||
+                        match.getHomeTeam().equals(teamPair.getAwayTeam()) ||
+                        match.getAwayTeam().equals(teamPair.getHomeTeam()) ||
+                        match.getAwayTeam().equals(teamPair.getAwayTeam()));
     }
 
     public void updateScore(TeamPair teamPair, int homeScore, int awayScore) {
