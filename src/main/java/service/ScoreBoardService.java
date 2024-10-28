@@ -3,28 +3,32 @@ package service;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import repository.MatchRepository;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
-public class ScoreBoard {
+public record ScoreBoardService(MatchRepository matchRepository) {
 
-    private final Map<TeamPair, Match> matches = new ConcurrentHashMap<>();
+    @Autowired
+    public ScoreBoardService {
+    }
 
     public void startMatch(TeamPair teamPair) {
         if (isTeamAlreadyPlaying(teamPair)) {
             throw new TeamAlreadyPlayingException("A team cannot have more than one ongoing match.");
         }
-        matches.putIfAbsent(teamPair, new Match(teamPair.getHomeTeam(), teamPair.getAwayTeam()));
+        Match match = new Match(teamPair.getHomeTeam(), teamPair.getAwayTeam());
+        matchRepository.save(match);
     }
 
     private boolean isTeamAlreadyPlaying(TeamPair teamPair) {
-        return matches.values().stream()
+        return matchRepository.findAll().values().stream()
                 .anyMatch(match -> match.getHomeTeam().equals(teamPair.getHomeTeam()) ||
                         match.getHomeTeam().equals(teamPair.getAwayTeam()) ||
                         match.getAwayTeam().equals(teamPair.getHomeTeam()) ||
@@ -32,26 +36,26 @@ public class ScoreBoard {
     }
 
     public void updateScore(TeamPair teamPair, int homeScore, int awayScore) {
-        Match match = matches.get(teamPair);
+        Match match = matchRepository.findByTeamPair(teamPair);
         match.updateScore(homeScore, awayScore);
     }
 
     public void finishMatch(TeamPair teamPair) {
-        matches.remove(teamPair);
+        matchRepository.delete(teamPair);
     }
 
     public Map<TeamPair, Match> getMatches() {
-        return matches;
+        return matchRepository.findAll();
     }
 
     public List<Match> getSummary() {
-        return matches.values().stream()
+        return matchRepository.findAll().values().stream()
                 .sorted(Comparator.comparingInt((Match m) -> m.getHomeScore() + m.getAwayScore())
                         .thenComparing(Match::getStartTime).reversed()).collect(Collectors.toList());
     }
 
     public void printSummary() {
-        if (matches.isEmpty()) {
+        if (getSummary().isEmpty()) {
             System.out.println("No ongoing matches.");
             return;
         }

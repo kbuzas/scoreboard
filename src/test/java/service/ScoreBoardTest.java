@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import repository.MatchRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest(classes = AppConfig.class)
 class ScoreBoardTest {
     @Autowired
-    ScoreBoard scoreBoard;
+    ScoreBoardService scoreBoard;
+
 
     TeamPair teamPair;
 
