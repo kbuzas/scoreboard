@@ -8,9 +8,9 @@ class MatchTest {
 
     @Test
     void testMatchInitialization(){
-        Match match = new Match("Team A", "Team B");
-        assertEquals("Team A", match.getHomeTeam());
-        assertEquals("Team B", match.getAwayTeam());
+        Match match = new Match(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
+        assertEquals(WorldCupTeams.ARGENTINA, match.getHomeTeam());
+        assertEquals(WorldCupTeams.BRAZIL, match.getAwayTeam());
         assertEquals(0, match.getHomeScore());
         assertEquals(0, match.getAwayScore());
     }

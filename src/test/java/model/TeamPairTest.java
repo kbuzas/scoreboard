@@ -8,9 +8,9 @@ class TeamPairTest {
 
     @Test
     void testTeamPairEquality() {
-        TeamPair pair1 = new TeamPair("Team A", "Team B");
-        TeamPair pair2 = new TeamPair("Team A", "Team B");
-        TeamPair pair3 = new TeamPair("Team C", "Team D");
+        TeamPair pair1 = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
+        TeamPair pair2 = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
+        TeamPair pair3 = new TeamPair(WorldCupTeams.CANADA, WorldCupTeams.GERMANY);
 
         assertEquals(pair1, pair2);
         assertNotEquals(pair1, pair3);
@@ -18,8 +18,8 @@ class TeamPairTest {
 
     @Test
     void testTeamPairHashCode() {
-        TeamPair pair1 = new TeamPair("Team A", "Team B");
-        TeamPair pair2 = new TeamPair("Team A", "Team B");
+        TeamPair pair1 = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
+        TeamPair pair2 = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
 
         assertEquals(pair1.hashCode(), pair2.hashCode());
     }

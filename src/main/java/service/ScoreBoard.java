@@ -37,7 +37,7 @@ public class ScoreBoard {
         Match match = matches.get(teamPair);
         if (match != null) {
             if (match.isSettled() && (homeScore < match.getHomeScore() || awayScore < match.getAwayScore())) {
-                throw new InvalidScoreException("Scores of an ongoing match cannod be reduced.");
+                throw new InvalidScoreException("Scores of an ongoing match cannot be reduced.");
             }
             match.setHomeScore(homeScore);
             match.setAwayScore(awayScore);

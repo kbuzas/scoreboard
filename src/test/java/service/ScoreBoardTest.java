@@ -4,6 +4,7 @@ import exceptions.InvalidScoreException;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
+import model.WorldCupTeams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ class ScoreBoardTest {
 
     @BeforeEach
     void setup() {
-        teamPair = new TeamPair("Team A", "Team B");
+        teamPair = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.BRAZIL);
         scoreBoard = new ScoreBoard();
 
     }
@@ -28,8 +29,8 @@ class ScoreBoardTest {
 
         scoreBoard.startMatch(teamPair);
         assertEquals(1, scoreBoard.getMatches().size());
-        assertEquals("Team A", scoreBoard.getMatches().get(teamPair).getHomeTeam());
-        assertEquals("Team B", scoreBoard.getMatches().get(teamPair).getAwayTeam());
+        assertEquals(WorldCupTeams.ARGENTINA, scoreBoard.getMatches().get(teamPair).getHomeTeam());
+        assertEquals(WorldCupTeams.BRAZIL, scoreBoard.getMatches().get(teamPair).getAwayTeam());
     }
 
     @Test
@@ -52,24 +53,23 @@ class ScoreBoardTest {
 
     @Test
     void testMatchSummary() {
-        TeamPair pair1 = new TeamPair("Team A", "Team B");
-        scoreBoard.startMatch(pair1);
-        scoreBoard.updateScore(pair1, 1, 0);
+        scoreBoard.startMatch(teamPair);
+        scoreBoard.updateScore(teamPair, 1, 0);
 
-        TeamPair pair2 = new TeamPair("Team C", "Team D");
+        TeamPair pair2 = new TeamPair(WorldCupTeams.CANADA, WorldCupTeams.ITALY);
         scoreBoard.startMatch(pair2);
         scoreBoard.updateScore(pair2, 2, 1);
 
         List<Match> summary = scoreBoard.getSummary();
         assertEquals(2, summary.size());
-        assertEquals("Team C 2 - 1 Team D", summary.get(0).toString());
-        assertEquals("Team A 1 - 0 Team B", summary.get(1).toString());
+        assertEquals("CANADA 2 - 1 ITALY", summary.get(0).toString());
+        assertEquals("ARGENTINA 1 - 0 BRAZIL", summary.get(1).toString());
     }
 
     @Test
     public void testPreventMultipleMatchesForSameTeam() {
         scoreBoard.startMatch(teamPair);
-        TeamPair teamPair2 = new TeamPair("Team A", "Team C");
+        TeamPair teamPair2 = new TeamPair(WorldCupTeams.ARGENTINA, WorldCupTeams.CANADA);
 
         // Attempting to start a match for Team A again should throw an exception
         TeamAlreadyPlayingException thrown = assertThrows(TeamAlreadyPlayingException.class, () -> {
@@ -82,7 +82,7 @@ class ScoreBoardTest {
     @Test
     public void testPreventMultipleMatchesForSameAwayTeam() {
         scoreBoard.startMatch(teamPair);
-        TeamPair teamPair2 = new TeamPair("Team C", "Team B");
+        TeamPair teamPair2 = new TeamPair(WorldCupTeams.CANADA, WorldCupTeams.BRAZIL);
 
         // Attempting to start a match for Team A again should throw an exception
         TeamAlreadyPlayingException thrown = assertThrows(TeamAlreadyPlayingException.class, () -> {
@@ -122,12 +122,12 @@ class ScoreBoardTest {
             scoreBoard.updateScore(teamPair, 1, 3);
         });
 
-        assertEquals("Scores of an ongoing match cannod be reduced.", thrown.getMessage());
+        assertEquals("Scores of an ongoing match cannot be reduced.", thrown.getMessage());
 
         thrown = assertThrows(InvalidScoreException.class, () -> {
             scoreBoard.updateScore(teamPair, 2, 2);
         });
 
-        assertEquals("Scores of an ongoing match cannod be reduced.", thrown.getMessage());
+        assertEquals("Scores of an ongoing match cannot be reduced.", thrown.getMessage());
     }
 }

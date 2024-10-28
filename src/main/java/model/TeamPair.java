@@ -2,20 +2,20 @@ package model;
 
 public class TeamPair {
 
-    private final String homeTeam;
-    private final String awayTeam;
+    private final WorldCupTeams homeTeam;
+    private final WorldCupTeams awayTeam;
 
 
-    public TeamPair(String homeTeam, String awayTeam) {
+    public TeamPair(WorldCupTeams homeTeam, WorldCupTeams awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
     }
 
-    public String getHomeTeam() {
+    public WorldCupTeams getHomeTeam() {
         return homeTeam;
     }
 
-    public String getAwayTeam() {
+    public WorldCupTeams getAwayTeam() {
         return awayTeam;
     }
 

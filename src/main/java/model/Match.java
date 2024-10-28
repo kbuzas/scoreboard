@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 
 public class Match {
 
-    private final String homeTeam;
-    private final String awayTeam;
+    private final WorldCupTeams homeTeam;
+    private final WorldCupTeams awayTeam;
 
     private int homeScore;
     private int awayScore;
     private final LocalDateTime startTime;
 
-    public Match(String homeTeam, String awayTeam) {
+    public Match(WorldCupTeams homeTeam, WorldCupTeams awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = 0;
@@ -19,11 +19,11 @@ public class Match {
         this.startTime = LocalDateTime.now();
     }
 
-    public String getHomeTeam() {
+    public WorldCupTeams getHomeTeam() {
         return homeTeam;
     }
 
-    public String getAwayTeam() {
+    public WorldCupTeams getAwayTeam() {
         return awayTeam;
     }
 
