@@ -10,13 +10,11 @@ public class ScoreBoard {
 
     private final Map<TeamPair, Match> matches = new ConcurrentHashMap<>();
 
-    public void startMatch(String homeTeam, String awayTeam) {
-        TeamPair teamPair = new TeamPair(homeTeam, awayTeam);
-        matches.putIfAbsent(teamPair, new Match(homeTeam, awayTeam));
+    public void startMatch(TeamPair teamPair) {
+        matches.putIfAbsent(teamPair, new Match(teamPair.getHomeTeam(), teamPair.getHomeTeam()));
     }
 
-    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
-        TeamPair teamPair = new TeamPair(homeTeam, awayTeam);
+    public void updateScore(TeamPair teamPair, int homeScore, int awayScore) {
         Match match = matches.get(teamPair);
         if (match != null) {
             match.setHomeScore(homeScore);
