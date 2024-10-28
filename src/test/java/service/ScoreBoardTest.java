@@ -91,4 +91,23 @@ class ScoreBoardTest {
         assertEquals("A team cannot have more than one ongoing match.", thrown.getMessage());
     }
 
+    @Test
+    public void testPreventNegativeScores() {
+        scoreBoard.startMatch(teamPair);
+
+        // Attempting to update with negative scores should throw an exception
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoard.updateScore(teamPair, -1, 2);
+        });
+
+        // Verify that the exception message is as expected
+        assertEquals("Scores cannot be negative.", thrown.getMessage());
+
+        thrown = assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoard.updateScore(teamPair, 1, -2);
+        });
+
+        // Verify that the exception message is as expected
+        assertEquals("Scores cannot be negative.", thrown.getMessage());
+    }
 }
