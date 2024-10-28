@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.InvalidScoreException;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
@@ -30,6 +31,9 @@ public class ScoreBoard {
     }
 
     public void updateScore(TeamPair teamPair, int homeScore, int awayScore) {
+        if(homeScore < 0 || awayScore < 0){
+            throw new InvalidScoreException("Scores cannot be negative.");
+        }
         Match match = matches.get(teamPair);
         if (match != null) {
             match.setHomeScore(homeScore);

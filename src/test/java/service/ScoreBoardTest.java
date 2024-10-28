@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.InvalidScoreException;
 import exceptions.TeamAlreadyPlayingException;
 import model.Match;
 import model.TeamPair;
@@ -96,14 +97,14 @@ class ScoreBoardTest {
         scoreBoard.startMatch(teamPair);
 
         // Attempting to update with negative scores should throw an exception
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidScoreException thrown = assertThrows(InvalidScoreException.class, () -> {
             scoreBoard.updateScore(teamPair, -1, 2);
         });
 
         // Verify that the exception message is as expected
         assertEquals("Scores cannot be negative.", thrown.getMessage());
 
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
+        thrown = assertThrows(InvalidScoreException.class, () -> {
             scoreBoard.updateScore(teamPair, 1, -2);
         });
 
